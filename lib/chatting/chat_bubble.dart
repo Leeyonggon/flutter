@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:matcher/matcher.dart';
 import 'package:flutter_chat_bubble/bubble_type.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
 import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_6.dart';
 
 class ChatBubbles extends StatelessWidget {
-  const ChatBubbles(this.message, this.username, this.isME, {super.key});
+  const ChatBubbles(this.message, this.isME, this.username, {super.key});
 
   final String message;
   final bool isME;
@@ -29,10 +28,12 @@ class ChatBubbles extends StatelessWidget {
                   maxWidth: MediaQuery.of(context).size.width * 0.7,
                 ),
                 child: Column(
+                  crossAxisAlignment:
+                      isME ? CrossAxisAlignment.end : CrossAxisAlignment.start,
                   children: [
                     Text(username,
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.black)),
+                            fontWeight: FontWeight.bold, color: Colors.white)),
                     Text(
                       message,
                       style: TextStyle(color: Colors.white),
@@ -53,9 +54,18 @@ class ChatBubbles extends StatelessWidget {
                 constraints: BoxConstraints(
                   maxWidth: MediaQuery.of(context).size.width * 0.7,
                 ),
-                child: Text(
-                  message,
-                  style: TextStyle(color: Colors.black),
+                child: Column(
+                  crossAxisAlignment:
+                      isME ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+                  children: [
+                    Text(username,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.black)),
+                    Text(
+                      message,
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ],
                 ),
               ),
             ),

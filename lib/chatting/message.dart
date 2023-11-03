@@ -34,12 +34,11 @@ class Messages extends StatelessWidget {
               return ChatBubbles(
                 //여기에서 uid와 message내용을 전달 받고 각각 isME와 message속성에 값을 저장
                 chatdocs[index].data()['test'],
+                chatdocs[index].data()['userid'].toString() == user!.uid,
                 chatdocs[index]
                     .data()['username']
                     .toString(), // map형식의 ['test': data]를 가져옴
-                chatdocs[index].data()['userid'].toString() ==
-                    user!
-                        .uid, //isME는 bool이기 때문에 string은 bool에 종속되지않음=> .toString()사용
+                //isME는 bool이기 때문에 string은 bool에 종속되지않음=> .toString()사용
               );
             },
           );
