@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "234435414851",
+    "project_id": "yg-coding-chatting",
+    "storage_bucket": "yg-coding-chatting.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:234435414851:android:58691a386df5db476ebdf6",
+        "android_client_info": {
+          "package_name": "com.example.firstproject"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGGvSo4yiGDGEnbLV2Tu0mCdeEeha33gY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
