@@ -28,6 +28,7 @@ class _NewMessageState extends State<NewMessage> {
       'time': Timestamp.now(),
       'userID': user!.uid,
       'username': userData.data()!['username'],
+      'userimage': userData['pickedimage']
     });
     _controller.clear(); // textfield에 입력된 내용 clear함
   }

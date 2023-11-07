@@ -32,14 +32,13 @@ class Messages extends StatelessWidget {
             itemCount: chatdocs.length, // data값의 개수마다 count하기 위함 동적기능
             itemBuilder: (context, index) {
               return ChatBubbles(
-                //여기에서 uid와 message내용을 전달 받고 각각 isME와 message속성에 값을 저장
-                chatdocs[index].data()['test'],
-                chatdocs[index].data()['userid'].toString() == user!.uid,
-                chatdocs[index]
-                    .data()['username']
-                    .toString(), // map형식의 ['test': data]를 가져옴
-                //isME는 bool이기 때문에 string은 bool에 종속되지않음=> .toString()사용
-              );
+                  //여기에서 uid와 message내용을 전달 받고 각각 isME와 message속성에 값을 저장
+                  chatdocs[index].data()['test'],
+                  chatdocs[index].data()['userid'].toString() == user!.uid,
+                  chatdocs[index]
+                      .data()['username']
+                      .toString(), // map형식의 ['test': data]를 가져옴//isME는 bool이기 때문에 string은 bool에 종속되지않음=> .toString()사용
+                  chatdocs[index].data()['userimage']);
             },
           );
         });

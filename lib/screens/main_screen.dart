@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firstproject/config/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -22,6 +24,11 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
   String userName = '';
   String userEmail = '';
   String userPassword = '';
+  File? userPickedimage;
+
+  void pickedimage(File image) {
+    userPickedimage = image;
+  }
 
   void showAlert(BuildContext context) {
     showDialog(
@@ -29,7 +36,8 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
         builder: ((context) {
           return Dialog(
             backgroundColor: Colors.white,
-            child: AddImage(),
+            child: AddImage(
+                pickedimage), // ()를 붙이지 않는 이유 => 메시지의 위치를 가리키고 있는 포인터만을 나타냄 메시지 호출 x
           );
         }));
   }
@@ -182,17 +190,18 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                         SizedBox(
                                           width: 15,
                                         ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            showAlert(context);
-                                          },
-                                          child: Icon(
-                                            Icons.image,
-                                            color: isSignupScreen
-                                                ? Colors.cyan
-                                                : Colors.grey[300],
-                                          ),
-                                        )
+                                        if (isSignupScreen)
+                                          GestureDetector(
+                                            onTap: () {
+                                              showAlert(context);
+                                            },
+                                            child: Icon(
+                                              Icons.image,
+                                              color: isSignupScreen
+                                                  ? Colors.cyan
+                                                  : Colors.grey[300],
+                                            ),
+                                          )
                                       ],
                                     ),
                                     if (isSignupScreen)
@@ -459,6 +468,17 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                           showspinner = true;
                         });
                         if (isSignupScreen) {
+                          if (userPickedimage == null) {
+                            setState(() {
+                              showspinner = false;
+                            });
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                  content: Text('Image를 넣어주세요.'),
+                                  backgroundColor: Colors.black),
+                            );
+                            return;
+                          }
                           _tryValidation();
 
                           try {
@@ -468,13 +488,26 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                               password: userPassword,
                             );
 
+                            final refimage = FirebaseStorage.instance
+                                .ref()
+                                .child('picked_image')
+                                .child(newUser.user!.uid +
+                                    '.png'); //firebasestorage에 접근하여 클라우드 버킷을 참조하여 접근함 => 어떤 sub폴더에 파일들을 저장할지에 대한 코드
+                            //앞 child는 폴더 지정 뒷 child는 이미지 name지정(유저의 uid로 저장)
+
+                            await refimage.putFile(
+                                userPickedimage!); // putFile은 uploadTask를 반환 future와 비슷하다고 생각하면 됨 await사용
+
+                            final url = await refimage.getDownloadURL();
+
                             await FirebaseFirestore.instance //회원가입 정보 전달 코드
                                 .collection('user')
                                 .doc(newUser.user!.uid)
                                 .set({
                               'username': userName,
                               'email': userEmail,
-                              'password': userPassword
+                              'password': userPassword,
+                              'pickedimage': url,
                             });
                             if (newUser.user != null) {
                               /*Navigator.push(context,
@@ -487,15 +520,17 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                             }
                           } catch (e) {
                             print(e);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                  content: Text(
-                                      '올바른 name, email, Password를 입력해주세요.'),
-                                  backgroundColor: Colors.black),
-                            );
-                            setState(() {
-                              showspinner = false;
-                            });
+                            if (mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                    content: Text(
+                                        '올바른 name, email, Password를 입력해주세요.'),
+                                    backgroundColor: Colors.black),
+                              );
+                              setState(() {
+                                showspinner = false;
+                              });
+                            }
                           }
                         }
                         if (!isSignupScreen) {
