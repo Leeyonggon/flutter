@@ -13,7 +13,7 @@ class AddImage extends StatefulWidget {
 }
 
 class _MyWidgetState extends State<AddImage> {
-  File? pickedImage; //q변수의 값이 할당되지않았으므로 ?로 빨간 밑줄 해결
+  File? pickedImage; //변수의 값이 할당되지않았으므로 ?로 빨간 밑줄 해결
   void _pickImage() async {
     final imagePicker = ImagePicker();
     final pickedimagefile = await imagePicker.pickImage(

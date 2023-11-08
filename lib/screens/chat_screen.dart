@@ -19,8 +19,9 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   void initState() {
+    //e동일 위젯트리내에 부모위젯에 의존하는 속성 초기화(getCurrentUser). http통신 사용시 사용
     // TODO: implement initState
-    super.initState();
+    super.initState(); // 필수 코드
     getCurrentUser();
   }
 

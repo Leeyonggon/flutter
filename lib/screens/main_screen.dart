@@ -36,7 +36,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
         builder: ((context) {
           return Dialog(
             backgroundColor: Colors.white,
-            child: AddImage(
+            child: AddImage(// add_image.dart 클래스 호출 생성자
                 pickedimage), // ()를 붙이지 않는 이유 => 메시지의 위치를 가리키고 있는 포인터만을 나타냄 메시지 호출 x
           );
         }));
@@ -192,6 +192,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                         ),
                                         if (isSignupScreen)
                                           GestureDetector(
+                                            //이미지 등록 버튼 코드
                                             onTap: () {
                                               showAlert(context);
                                             },
@@ -493,7 +494,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                 .child('picked_image')
                                 .child(newUser.user!.uid +
                                     '.png'); //firebasestorage에 접근하여 클라우드 버킷을 참조하여 접근함 => 어떤 sub폴더에 파일들을 저장할지에 대한 코드
-                            //앞 child는 폴더 지정 뒷 child는 이미지 name지정(유저의 uid로 저장)
+                            //앞 child는 폴더 지정, 뒷 child는 이미지 name지정(유저의 uid로 저장)
 
                             await refimage.putFile(
                                 userPickedimage!); // putFile은 uploadTask를 반환 future와 비슷하다고 생각하면 됨 await사용
